@@ -1,0 +1,30 @@
+= Gnome Network Manager =
+
+My laptop started misbehaving, or Gnome Network Manager's graphical
+user interface did.
+
+I resorted to {{{nmcli}}}, the Network Manager command line tool. It's
+a bit baroque.
+
+So here is a simple little Emacs Lisp interface to {{{nmcli}}}.
+
+
+== Commands ==
+
+Here are the useful commands:
+
+=== gnomenm-connect ap ===
+
+Connect to a specific //ap//.
+
+
+=== gnomenm-disconnect  ===
+
+Disconnect from the current Access Point.
+
+
+=== gnomenm-toggle-enabled &optional status ===
+
+Toggle whether networking is enabled or not.
+
+

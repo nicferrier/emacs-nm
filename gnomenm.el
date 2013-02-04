@@ -1,4 +1,4 @@
-;;; nm.el --- Emacs interface to Gnome nmcli command
+;;; gnomenm.el --- Emacs interface to Gnome nmcli command
 
 ;; Copyright (C) 2013  Nic Ferrier
 
@@ -24,72 +24,73 @@
 
 ;;; Code:
 
-(defvar nm/enabled nil
-  "Whether nm is enabled or not.")
+(defvar gnomenm/enabled nil
+  "Whether gnomenm is enabled or not.")
 
-(defun nm/enable ()
+(defun gnomenm/enable ()
   (shell-command-to-string "nmcli -t -f net-enabled nm enable true")
   (setq nm/enabled t))
 
-(defun nm/disable ()
+(defun gnomenm/disable ()
   (shell-command-to-string "nmcli -t -f net-enabled nm enable false")
-  (setq nm/enabled nil))
+  (setq gnomenm/enabled nil))
 
-(defun nm-toggle-enabled (&optional status)
+(defun gnomenm-toggle-enabled (&optional status)
   "Toggle whether networking is enabled or not."
   (interactive "p")
   (cond
     ((> status 0)
-     (nm/enable))
+     (gnomenm/enable))
     ((< status 1)
-     (nm/disable))
+     (gnomenm/disable))
     ((eq status nil)
-     (if nm/enabled (nm/disable) (nm/enable)))))
+     (if gnomenm/enabled (gnomenm/disable) (gnomenm/enable)))))
 
-(defun nm/connected ()
+(defun gnomenm/connected ()
   (car
    (split-string
     (shell-command-to-string "nmcli -t -f name con status")
     "\n")))
 
-(defun nm/list-aps ()
+(defun gnomenm/list-aps ()
   (split-string
    (shell-command-to-string "nmcli -t -f name con list")
    "\n"))
 
-(defun nm/disconnect (ap)
+(defun gnomenm/disconnect (ap)
   (car
    (split-string
     (shell-command-to-string
      (format "nmcli -t -f name con down id \"%s\"" ap))
     "\n")))
 
-(defun nm/connect (ap)
+(defun gnomenm/connect (ap)
   (car
    (split-string
     (shell-command-to-string
      (format "nmcli -t -f name con up id \"%s\"" ap))
     "\n")))
 
-(defun nm-disconnect ()
+(defun gnomenm-disconnect ()
   "Disconnect from the current Access Point."
   (interactive)
-  (let ((current-ap (nm/connected)))
-    (nm/disconnect current-ap)))
+  (let ((current-ap (gnomenm/connected)))
+    (gnomenm/disconnect current-ap)))
 
-(defun nm-connect (ap)
+(defun gnomenm-connect (ap)
   "Connect to a specific AP."
   (interactive
    (list
-    (let ((ap-list (nm/list-aps)))
+    (let ((ap-list (gnomenm/list-aps)))
       (completing-read "What access point? " ap-list nil t))))
-  (let ((current-ap (nm/connected)))
+  (let ((current-ap (gnomenm/connected)))
     (if (equal ap current-ap)
         (message "nm: already connected to %s" ap)
         ;; Else let's try and connect to it
         (unwind-protect
-             (nm/disconnect current-ap)
-          (nm/connect ap)))))
+             (gnomenm/disconnect current-ap)
+          (gnomenm/connect ap)))))
 
-(provide 'nm)
-;;; nm.el ends here
+(provide 'gnomenm)
+
+;;; gnomenm.el ends here
