@@ -4,6 +4,7 @@
 
 ;; Author: Nic Ferrier <nferrier@ferrier.me.uk>
 ;; Keywords: processes, hardware
+;; Version: 0.0.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -29,11 +30,19 @@
 
 (defun gnomenm/enable ()
   (shell-command-to-string "nmcli -t -f net-enabled nm enable true")
+  (message "gnomenm network enabled")
   (setq nm/enabled t))
 
 (defun gnomenm/disable ()
   (shell-command-to-string "nmcli -t -f net-enabled nm enable false")
+  (message "gnomenm network disabled")
   (setq gnomenm/enabled nil))
+
+(defun gnomenm-status ()
+  "What's the network status?"
+  (interactive)
+  (message "gnomenm network is %s"
+           (if gnomenm/enabled "on" "off")))
 
 (defun gnomenm-toggle-enabled (&optional status)
   "Toggle whether networking is enabled or not."
