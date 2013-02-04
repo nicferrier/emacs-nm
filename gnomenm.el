@@ -29,11 +29,13 @@
   "Whether gnomenm is enabled or not.")
 
 (defun gnomenm/enable ()
+  "Turn on WIFI."
   (shell-command-to-string "nmcli -t -f net-enabled nm wifi on")
   (message "gnomenm wifi enabled")
   (setq gnomenm/enabled t))
 
 (defun gnomenm/disable ()
+  "Turn off WIFI."
   (shell-command-to-string "nmcli -t -f net-enabled nm wifi off")
   (message "gnomenm wifi disabled")
   (setq gnomenm/enabled nil))
@@ -45,7 +47,7 @@
            (if gnomenm/enabled "on" "off")))
 
 (defun gnomenm-toggle-enabled (&optional status)
-  "Toggle whether networking is enabled or not."
+  "Toggle whether WIFI is enabled or not."
   (interactive "P")
   (cond
     ((null status)
@@ -56,17 +58,20 @@
      (gnomenm/disable))))
 
 (defun gnomenm/connected ()
+  "What AP are we currently connected to?"
   (car
    (split-string
     (shell-command-to-string "nmcli -t -f name con status")
     "\n")))
 
 (defun gnomenm/list-aps ()
+  "Make a list of all APs."
   (split-string
    (shell-command-to-string "nmcli -t -f name con list")
    "\n"))
 
 (defun gnomenm/disconnect (ap)
+  "Disconnect from the specified AP."
   (car
    (split-string
     (shell-command-to-string
@@ -74,6 +79,7 @@
     "\n")))
 
 (defun gnomenm/connect (ap)
+  "Connect to the specified AP."
   (car
    (split-string
     (shell-command-to-string
