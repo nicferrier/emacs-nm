@@ -31,7 +31,7 @@
 (defun gnomenm/enable ()
   (shell-command-to-string "nmcli -t -f net-enabled nm wifi on")
   (message "gnomenm wifi enabled")
-  (setq nm/enabled t))
+  (setq gnomenm/enabled t))
 
 (defun gnomenm/disable ()
   (shell-command-to-string "nmcli -t -f net-enabled nm wifi off")
@@ -46,14 +46,14 @@
 
 (defun gnomenm-toggle-enabled (&optional status)
   "Toggle whether networking is enabled or not."
-  (interactive "p")
+  (interactive "P")
   (cond
-    ((> status 0)
+    ((null status)
+     (if gnomenm/enabled (gnomenm/disable) (gnomenm/enable)))
+    ((> (prefix-numeric-value status) 0)
      (gnomenm/enable))
-    ((< status 1)
-     (gnomenm/disable))
-    ((eq status nil)
-     (if gnomenm/enabled (gnomenm/disable) (gnomenm/enable)))))
+    ((< (prefix-numeric-value status) 1)
+     (gnomenm/disable))))
 
 (defun gnomenm/connected ()
   (car
