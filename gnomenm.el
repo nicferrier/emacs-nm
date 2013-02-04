@@ -29,13 +29,13 @@
   "Whether gnomenm is enabled or not.")
 
 (defun gnomenm/enable ()
-  (shell-command-to-string "nmcli -t -f net-enabled nm enable true")
-  (message "gnomenm network enabled")
+  (shell-command-to-string "nmcli -t -f net-enabled nm wifi on")
+  (message "gnomenm wifi enabled")
   (setq nm/enabled t))
 
 (defun gnomenm/disable ()
-  (shell-command-to-string "nmcli -t -f net-enabled nm enable false")
-  (message "gnomenm network disabled")
+  (shell-command-to-string "nmcli -t -f net-enabled nm wifi off")
+  (message "gnomenm wifi disabled")
   (setq gnomenm/enabled nil))
 
 (defun gnomenm-status ()
