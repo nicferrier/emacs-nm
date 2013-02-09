@@ -8,6 +8,14 @@ a bit baroque.
 
 So here is a simple little Emacs Lisp interface to {{{nmcli}}}.
 
+== Installing ==
+
+It's in [[http://marmalade-repo.org|marmalade]] - add marmalade as a
+package repository and then do:
+
+{{{
+M-x package-install [RET] gnomenm [RET]
+}}}
 
 == Commands ==
 
