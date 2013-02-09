@@ -92,12 +92,20 @@
   (let ((current-ap (gnomenm/connected)))
     (gnomenm/disconnect current-ap)))
 
+(defvar gnomenm-connect-history nil
+  "The history of APs you've connected to.")
+
 (defun gnomenm-connect (ap)
   "Connect to a specific AP."
   (interactive
    (list
     (let ((ap-list (gnomenm/list-aps)))
-      (completing-read "What access point? " ap-list nil t))))
+      (completing-read
+       "What access point? " ap-list nil t
+       (if gnomenm-connect-history
+           (car gnomenm-connect-history)
+           nil)
+       'gnomenm-connect-history))))
   (let ((current-ap (gnomenm/connected)))
     (if (equal ap current-ap)
         (message "nm: already connected to %s" ap)
@@ -105,6 +113,22 @@
         (unwind-protect
              (gnomenm/disconnect current-ap)
           (gnomenm/connect ap)))))
+
+(defun gnomenm-flip ()
+  "Flip the AP to the last but one connected to.
+
+If you don't have two APs in the history it does nothing.
+
+This is really useful if you switch between a pair of APs like I
+do.  I recommend using a keychord like:
+
+ (key-chord-define-global \"90\"  'gnomenm-flip)
+
+See http://www.emacswiki.org/KeyChord for details on KeyChord."
+  (interactive)
+  (let ((ap (cadr gnomenm-connect-history)))
+    (when ap
+      (gnomenm-connect ap))))
 
 (provide 'gnomenm)
 

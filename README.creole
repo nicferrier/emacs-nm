@@ -23,8 +23,28 @@ Connect to a specific //ap//.
 Disconnect from the current Access Point.
 
 
+=== gnomenm-flip  ===
+
+Flip the AP to the last but one connected to.
+
+If you don't have two APs in the history it does nothing.
+
+This is really useful if you switch between a pair of APs like I
+do.  I recommend using a keychord like:
+
+{{{
+ (key-chord-define-global "90"  'gnomenm-flip)
+}}}
+
+See http://www.emacswiki.org/KeyChord for details on KeyChord.
+
+
+=== gnomenm-status  ===
+
+What's the network status?
+
+
 === gnomenm-toggle-enabled &optional status ===
 
 Toggle whether networking is enabled or not.
-
 
