@@ -4,6 +4,7 @@
 
 ;; Author: Nic Ferrier <nferrier@ferrier.me.uk>
 ;; Keywords: processes, hardware
+;; URL: http://github.com/nicferrier/emacs-nm
 ;; Version: 0.0.2
 
 ;; This program is free software; you can redistribute it and/or modify
