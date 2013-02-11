@@ -5,7 +5,7 @@
 ;; Author: Nic Ferrier <nferrier@ferrier.me.uk>
 ;; Keywords: processes, hardware
 ;; URL: http://github.com/nicferrier/emacs-nm
-;; Version: 0.0.2
+;; Version: 0.0.3
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -87,6 +87,7 @@
      (format "nmcli -t -f name con up id \"%s\"" ap))
     "\n")))
 
+;;;###autoload
 (defun gnomenm-disconnect ()
   "Disconnect from the current Access Point."
   (interactive)
@@ -96,6 +97,7 @@
 (defvar gnomenm-connect-history nil
   "The history of APs you've connected to.")
 
+;;;###autoload
 (defun gnomenm-connect (ap)
   "Connect to a specific AP."
   (interactive
@@ -115,6 +117,7 @@
              (gnomenm/disconnect current-ap)
           (gnomenm/connect ap)))))
 
+;;;###autoload
 (defun gnomenm-flip ()
   "Flip the AP to the last but one connected to.
 
