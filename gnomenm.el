@@ -47,6 +47,7 @@
   (message "gnomenm network is %s"
            (if gnomenm/enabled "on" "off")))
 
+;;;###autoload
 (defun gnomenm-toggle-enabled (&optional status)
   "Toggle whether WIFI is enabled or not."
   (interactive "P")
