@@ -80,13 +80,18 @@
      (format "nmcli -t -f name con down id \"%s\"" ap))
     "\n")))
 
+
+(defvar gnomenm/connect-history '()
+  "History of all you have connected to.")
+
 (defun gnomenm/connect (ap)
   "Connect to the specified AP."
   (car
    (split-string
     (shell-command-to-string
      (format "nmcli -t -f name con up id \"%s\"" ap))
-    "\n")))
+    "\n"))
+  (add-to-list 'gnomenm/connect-history ap))
 
 ;;;###autoload
 (defun gnomenm-disconnect ()
@@ -131,7 +136,7 @@ do.  I recommend using a keychord like:
 
 See http://www.emacswiki.org/KeyChord for details on KeyChord."
   (interactive)
-  (let ((ap (cadr gnomenm-connect-history)))
+  (let ((ap (cadr gnomenm/connect-history)))
     (when ap
       (gnomenm-connect ap))))
 
