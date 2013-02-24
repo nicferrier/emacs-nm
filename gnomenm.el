@@ -91,7 +91,9 @@
     (shell-command-to-string
      (format "nmcli -t -f name con up id \"%s\"" ap))
     "\n"))
-  (add-to-list 'gnomenm/connect-history ap))
+  (setq
+   gnomenm/connect-history
+   (append gnomenm/connect-history (list ap))))
 
 ;;;###autoload
 (defun gnomenm-disconnect ()
