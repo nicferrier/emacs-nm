@@ -93,7 +93,7 @@
     "\n"))
   (setq
    gnomenm/connect-history
-   (append gnomenm/connect-history (list ap))))
+   (append (list ap) gnomenm/connect-history)))
 
 ;;;###autoload
 (defun gnomenm-disconnect ()
