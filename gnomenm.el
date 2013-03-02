@@ -138,9 +138,11 @@ do.  I recommend using a keychord like:
 
 See http://www.emacswiki.org/KeyChord for details on KeyChord."
   (interactive)
-  (let ((ap (cadr gnomenm/connect-history)))
-    (when ap
-      (gnomenm-connect ap))))
+  (let ((ap (gnomenm/connected)))
+    (gnomenm-connect
+     (loop for previous-ap in gnomenm/connect-history
+        unless (equal ap previous-ap)
+        return  previous-ap))))
 
 (provide 'gnomenm)
 
