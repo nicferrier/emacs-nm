@@ -26,8 +26,30 @@
 
 ;;; Code:
 
+(require 's)
+
 (defvar gnomenm/enabled nil
   "Whether gnomenm is enabled or not.")
+
+(defun gnomenm/list ()
+  "List the connections.
+
+Produces a list like:
+
+ (\"PGGuest\" \"03a11865-3953-4052-aa67-34bc891d3c61\" \"802-11-wireless\" \"Thu 13 Feb 2014 14:12:27 GMT\")
+ (\"Norwegian Internet Access 9ca4914a-8feb-45bf-bf90-ea472d2ee98a\" \"802-11-wireless\" \"Wed 20 Nov 2013 17:45:45 GMT\")
+ (\"GIB_PUBLIC\" \"631d8f69-1574-4687-9a00-18d29386d2c4\" \"802-11-wireless\" \"Wed 23 Oct 2013 19:19:29 BST\")
+ (\"bwinparty\" \"23534f3e-f5c5-4ec8-86a9-7c3f8866d6c7\" \"vpn\" \"Sat 15 Feb 2014 08:03:32 GMT\")
+ (\"SIL\" \"d047093c-b6c8-42db-8d3e-7888bbd39a21\" \"802-11-wireless\" \"never\")
+ (\"NETGEAR_EXT\" \"3eab3930-7e67-402c-9fec-471cd062c97d\" \"802-11-wireless\" \"Tue 10 Dec 2013 12:14:26 GMT\")
+"
+  (cdr
+   (->> (split-string (shell-command-to-string "nmcli con list") "\n")
+     (-keep (lambda (l)
+              (->> (split-string l "  ")
+                (-keep (lambda (f)
+                         (let ((a (s-trim f)))
+                           (when (not (equal a "")) a))))))))))
 
 (defun gnomenm/enable ()
   "Turn on WIFI."
@@ -121,9 +143,12 @@
     (if (equal ap current-ap)
         (message "nm: already connected to %s" ap)
         ;; Else let's try and connect to it
-        (unwind-protect
-             (gnomenm/disconnect current-ap)
-          (gnomenm/connect ap)))))
+        (if (equal "802-11-wireless" (elt (kva ap (gnomenm/list)) 2))
+            (unwind-protect
+                 (gnomenm/disconnect current-ap)
+              (gnomenm/connect ap))
+            ;; Else just connect
+            (gnomenm/connect ap)))))
 
 ;;;###autoload
 (defun gnomenm-flip ()
