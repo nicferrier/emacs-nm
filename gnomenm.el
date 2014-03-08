@@ -6,6 +6,7 @@
 ;; Keywords: processes, hardware
 ;; URL: http://github.com/nicferrier/emacs-nm
 ;; Version: 0.0.6
+;; Package-requires: ((s "1.9.0")(dash "2.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -27,6 +28,7 @@
 ;;; Code:
 
 (require 's)
+(require 'dash)
 
 (defvar gnomenm/enabled nil
   "Whether gnomenm is enabled or not.")
