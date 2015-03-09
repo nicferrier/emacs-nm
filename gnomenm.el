@@ -5,7 +5,7 @@
 ;; Author: Nic Ferrier <nferrier@ferrier.me.uk>
 ;; Keywords: processes, hardware
 ;; URL: http://github.com/nicferrier/emacs-nm
-;; Version: 0.0.6
+;; Version: 0.0.7
 ;; Package-requires: ((s "1.9.0")(dash "2.3.0")(kv "0.0.19"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -82,6 +82,8 @@ Produces a list like:
      (gnomenm/enable))
     ((< (prefix-numeric-value status) 1)
      (gnomenm/disable))))
+
+(defalias 'toggle-gnomenm-enabled 'gnomenm-toggle-enabled)
 
 (defun gnomenm/connected ()
   "What AP are we currently connected to?"
